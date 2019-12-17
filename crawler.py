@@ -1,31 +1,9 @@
-import requests
+from config import *
 from bs4 import BeautifulSoup
+import requests
 import txtstringify as txt
 import link_validation
 import time
-
-#to limit requisitions to prevent having the ip blocked
-DELAY = 0.3 #time in seconds between requests
-LINKS_EXTRACTION_LIMIT = 5 #max numbers os links extracted
-LINKS_FILENAME = "wikipedia_links.txt" #name of the file with the links to be requested and the one extracted will be saved on
-
-"""
-Link Filter
-
-Add a function that receives the links and validate it according to the type of link you're
-looking for on your aplication
-
-"""
-LINK_VALIDATION = link_validation.pt_wikipedia_link
-
-"""
-Link Fix
-
-Add a function to turn a relative into a absolute link according to the function criteria
-
-"""
-LINK_FIX = link_validation.pt_wikipedia_link_fix
-
 
 def crawl():
 

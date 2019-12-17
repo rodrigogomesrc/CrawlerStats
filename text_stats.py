@@ -1,14 +1,12 @@
+from config import *
 import stringstats as stats 
 import txtstringify as txt
-
-FILENAME = "wikipedia_articles.txt"
-FREQUENCY_FILE = "pt_wikipedia_frequency.txt"
 
 def analyse_text():
 
 	print("Getting text for analyze...")
-	text = txt.txtstringify.clean_text(FILENAME, nonumbers=True, lower=True)
-
+	text = txt.txtstringify.clean_text(TEXT_FILENAME, nonumbers=True, lower=True)
+	
 	print("Processing text...")
 	words_frequency = stats.stringstats.words_frequency_list(text, limit=1000)
 	characters_frequency = stats.stringstats.character_frequency_list(text)

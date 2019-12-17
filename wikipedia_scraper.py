@@ -1,19 +1,15 @@
-import requests
+from config import *
 from bs4 import BeautifulSoup
+import requests
 import txtstringify as txt
 import time
-
-LINKS_FILENAME = "wikipedia_links.txt"
-TEXT_FILENAME = "wikipedia_articles.txt"
-DELAY = 0.3
-LINKS_ACCESS_LIMIT = 5
 
 def scrape():
 
 	links = txt.txtstringify.raw_lines(LINKS_FILENAME, linebreaks=False)
 	links_quantity = len(links)
 	requested_links = 1
-	print("Extracting Pages from links...")
+	print("Extracting pages from the links...")
 
 	for n in range(links_quantity):
 
@@ -48,7 +44,7 @@ def scrape():
 
 			continue
 
-		if requested_links >= LINKS_ACCESS_LIMIT:
+		if requested_links >= LINKS_ACCESS_LIMIT and LINKS_ACCESS_LIMIT != -1:
 
 			print("Link access limit reached")
 			break
