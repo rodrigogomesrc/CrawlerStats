@@ -6,8 +6,8 @@ import time
 
 #to limit requisitions to prevent having the ip blocked
 DELAY = 0.3 #time in seconds between requests
-LINKS_LIMIT = 1000 #max numbers os links extracted
-FILENAME = "wikipedia_links.txt" #name of the file with the links to be requested and the one extracted will be saved on
+LINKS_EXTRACTION_LIMIT = 5 #max numbers os links extracted
+LINKS_FILENAME = "wikipedia_links.txt" #name of the file with the links to be requested and the one extracted will be saved on
 
 """
 Link Filter
@@ -26,73 +26,76 @@ Add a function to turn a relative into a absolute link according to the function
 """
 LINK_FIX = link_validation.pt_wikipedia_link_fix
 
-requested_links = list()
-links = txt.txtstringify.raw_lines(FILENAME, linebreaks=False)
-links_quantity = len(links)
 
-while True:
+def crawl():
 
-	for n in range(links_quantity):
+	requested_links = list()
+	links = txt.txtstringify.raw_lines(LINKS_FILENAME, linebreaks=False)
+	links_quantity = len(links)
+	print("Extracting links")
 
-		time.sleep(DELAY)
-		current_link = links[n]
+	while True:
 
-		if current_link in requested_links:
-			
-			continue
+		for n in range(links_quantity):
 
-		requested_links.append(current_link)
+			time.sleep(DELAY)
+			current_link = links[n]
 
-		try:
+			if current_link in requested_links:
+				
+				continue
 
-			response = requests.get(current_link)
+			requested_links.append(current_link)
 
-			if response.status_code == 200:
+			try:
 
-				content = response.content
-				soup = BeautifulSoup(content, 'html.parser')
-				soup_links = soup.find_all("a")
-				extracted_links = list()
+				response = requests.get(current_link)
 
-				for i in range(len(soup_links)):
+				if response.status_code == 200:
 
-					new_link = soup_links[i].get('href')
-					new_link = LINK_FIX(new_link)
+					content = response.content
+					soup = BeautifulSoup(content, 'html.parser')
+					soup_links = soup.find_all("a")
+					extracted_links = list()
 
-					if new_link not in links and new_link not in extracted_links and LINK_VALIDATION(new_link):
+					for i in range(len(soup_links)):
 
-						print("Extracted link: ", new_link)
-						extracted_links.append(new_link)
-			else:
+						new_link = soup_links[i].get('href')
+						new_link = LINK_FIX(new_link)
 
-				print("Request Error: %d" %response.status_code)
+						if new_link not in links and new_link not in extracted_links and LINK_VALIDATION(new_link):
 
-		except:
+							print("Extracted link: ", new_link)
+							extracted_links.append(new_link)
+				else:
 
-			continue
+					print("Request Error: %d" %response.status_code)
 
-	for link in extracted_links:
+			except:
 
-		links.append(link)
+				continue
 
-	number_of_extracted_links = len(extracted_links)
-	number_of_links = len(links)
+		for link in extracted_links:
 
-	print("%d links extracted in this execution" %number_of_extracted_links)
-	print("Total links: %d" %number_of_links)
+			links.append(link)
 
-	with open(FILENAME, 'w') as file:
+		number_of_extracted_links = len(extracted_links)
+		number_of_links = len(links)
+		print("%d links extracted in this execution" %number_of_extracted_links)
+		print("Total links: %d" %number_of_links)
 
-	    for link in links:
+		with open(LINKS_FILENAME, 'w') as file:
 
-	        file.write("%s\n" %link)
+		    for link in links:
 
-	if(number_of_links >= LINKS_LIMIT):
+		        file.write("%s\n" %link)
 
-		print("Link limits reached")
-		break
+		if(number_of_links >= LINKS_EXTRACTION_LIMIT):
 
-	if(number_of_extracted_links == 0):
+			print("Link limits reached")
+			break
 
-		print("All links provided were acessed")
-		break
+		if(number_of_extracted_links == 0):
+
+			print("All links provided were acessed")
+			break

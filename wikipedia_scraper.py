@@ -6,43 +6,51 @@ import time
 LINKS_FILENAME = "wikipedia_links.txt"
 TEXT_FILENAME = "wikipedia_articles.txt"
 DELAY = 0.3
+LINKS_ACCESS_LIMIT = 5
 
-links = txt.txtstringify.raw_lines(LINKS_FILENAME, linebreaks=False)
-links_quantity = len(links)
-requested_links = 1
+def scrape():
 
-for n in range(links_quantity):
+	links = txt.txtstringify.raw_lines(LINKS_FILENAME, linebreaks=False)
+	links_quantity = len(links)
+	requested_links = 1
+	print("Extracting Pages from links...")
 
-	time.sleep(DELAY)
+	for n in range(links_quantity):
 
-	current_link = links[n]
+		time.sleep(DELAY)
+		current_link = links[n]
 
-	try:
+		try:
 
-		response = requests.get(current_link)
+			response = requests.get(current_link)
 
-		if response.status_code == 200:
+			if response.status_code == 200:
 
-			print("Scraping %d of %d : %s" %(requested_links, links_quantity, current_link))
-			requested_links += 1
-			content = response.content
-			soup = BeautifulSoup(content, 'html.parser')
-			paragraphs = soup.find_all("p")
-			text = " "
+				print("Scraping %d of %d : %s" %(requested_links, links_quantity, current_link))
+				requested_links += 1
+				content = response.content
+				soup = BeautifulSoup(content, 'html.parser')
+				paragraphs = soup.find_all("p")
+				text = " "
 
-			for p in paragraphs:
+				for p in paragraphs:
 
-				text += p.get_text()
+					text += p.get_text()
 
-			with open(TEXT_FILENAME, 'a') as file:
+				with open(TEXT_FILENAME, 'a') as file:
 
-				file.write(text)
-		else:
+					file.write(text)
+			else:
 
-			print("Request Error: %d" %response.status_code)
+				print("Request Error: %d" %response.status_code)
 
-	except:
+		except:
 
-		continue
+			continue
+
+		if requested_links >= LINKS_ACCESS_LIMIT:
+
+			print("Link access limit reached")
+			break
 
 
