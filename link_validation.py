@@ -5,10 +5,6 @@ def pt_wiki_link(link):
 
 	link = str(link)
 
-	if link[0:4] != "http":
-
-		return False
-
 	if link[8] != "p" or link[9] != "t":
 
 		return False
@@ -26,10 +22,6 @@ def pt_wiki_link(link):
 def pt_wikipedia_link(link):
 
 	link = str(link)
-
-	if link[0:4] != "http":
-
-		return False
 
 	if link[8:24] != "pt.wikipedia.org":
 

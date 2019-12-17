@@ -6,7 +6,6 @@ import time
 
 #to limit requisitions to prevent having the ip blocked
 DELAY = 0.3 #time in seconds between requests
-
 LINKS_LIMIT = 1000 #max numbers os links extracted
 FILENAME = "wikipedia_links.txt" #name of the file with the links to be requested and the one extracted will be saved on
 
@@ -17,7 +16,6 @@ Add a function that receives the links and validate it according to the type of 
 looking for on your aplication
 
 """
-
 LINK_VALIDATION = link_validation.pt_wikipedia_link
 
 """
@@ -26,12 +24,9 @@ Link Fix
 Add a function to turn a relative into a absolute link according to the function criteria
 
 """
-
 LINK_FIX = link_validation.pt_wikipedia_link_fix
 
-
 requested_links = list()
-
 links = txt.txtstringify.raw_lines(FILENAME, linebreaks=False)
 links_quantity = len(links)
 
@@ -66,7 +61,7 @@ while True:
 
 					if new_link not in links and new_link not in extracted_links and LINK_VALIDATION(new_link):
 
-						print("extracted link: ", new_link)
+						print("Extracted link: ", new_link)
 						extracted_links.append(new_link)
 			else:
 
@@ -100,3 +95,4 @@ while True:
 	if(number_of_extracted_links == 0):
 
 		print("All links provided were acessed")
+		break
