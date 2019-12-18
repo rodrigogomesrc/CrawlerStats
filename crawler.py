@@ -5,46 +5,85 @@ import txtstringify as txt
 import link_validation
 import time
 
+def extract_link_tags(response_content):
+
+	urls = list()
+	soup = BeautifulSoup(response_content, 'html.parser')
+	soup_links = soup.find_all("a")
+
+	for link in soup_links:
+		
+		url = link.get('href')
+		urls.append(url)
+
+	return urls
+
+def get_validated_links(links):
+
+	validated_links = list()
+
+	for link in links:
+
+		fixed_link = LINK_FIX(link)
+
+		if LINK_VALIDATION(fixed_link):
+
+			validated_links.append(fixed_link)
+
+	return validated_links
+
+
+def save_links(links_to_save, link_save_list):
+	
+	links_count = 0
+
+	for link in links_to_save:
+
+		if link not in link_save_list:
+
+			print("Extracted link: ", link)
+			link_save_list.append(link)
+			links_count += 1
+
+	return links_count
+
+
 def crawl():
 
 	requested_links = list()
 	links = txt.txtstringify.raw_lines(LINKS_FILENAME, linebreaks=False)
-	links_quantity = len(links)
-	print("Extracting links")
+	total_extracted_links = 0
+	link_limit_reached = False
+	print("Extracting links...")
 
 	while True:
 
-		for n in range(links_quantity):
+		for link in links:
 
 			time.sleep(DELAY)
-			current_link = links[n]
 
-			if current_link in requested_links:
+			if link in requested_links:
 				
 				continue
 
-			requested_links.append(current_link)
+			requested_links.append(link)
 
 			try:
 
-				response = requests.get(current_link)
-
+				response = requests.get(link)
+		
 				if response.status_code == 200:
 
-					content = response.content
-					soup = BeautifulSoup(content, 'html.parser')
-					soup_links = soup.find_all("a")
 					extracted_links = list()
+					page_links = extract_link_tags(response.content)
+					validated_links = get_validated_links(page_links)
+					execution_extracted_links = save_links(validated_links, extracted_links)
+					total_extracted_links += execution_extracted_links
 
-					for i in range(len(soup_links)):
+					if(execution_extracted_links == 0):
 
-						new_link = soup_links[i].get('href')
-						new_link = LINK_FIX(new_link)
-
-						if new_link not in links and new_link not in extracted_links and LINK_VALIDATION(new_link):
-
-							print("Extracted link: ", new_link)
-							extracted_links.append(new_link)
+						link_limit_reached = True
+						break
 				else:
 
 					print("Request Error: %d" %response.status_code)
@@ -57,10 +96,7 @@ def crawl():
 
 			links.append(link)
 
-		number_of_extracted_links = len(extracted_links)
-		number_of_links = len(links)
-		print("%d links extracted in this execution" %number_of_extracted_links)
-		print("Total links: %d" %number_of_links)
+		print("%d Links Extracted" %total_extracted_links)
 
 		with open(LINKS_FILENAME, 'w') as file:
 
@@ -68,12 +104,12 @@ def crawl():
 
 		        file.write("%s\n" %link)
 
-		if(number_of_links >= LINKS_EXTRACTION_LIMIT):
-
-			print("Link limits reached")
-			break
-
-		if(number_of_extracted_links == 0):
+		if(link_limit_reached):
 
 			print("All links provided were acessed")
+			break
+
+		if(total_extracted_links >= LINKS_EXTRACTION_LIMIT):
+
+			print("Link limits reached")
 			break
