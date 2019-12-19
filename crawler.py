@@ -53,7 +53,7 @@ def crawl():
 	requested_links = list()
 	links = txt.txtstringify.raw_lines(LINKS_FILENAME, linebreaks=False)
 	total_extracted_links = 0
-	link_limit_reached = False
+	limit = False
 	print("Extracting links...")
 
 	while True:
@@ -82,34 +82,37 @@ def crawl():
 
 					if(execution_extracted_links == 0):
 
-						link_limit_reached = True
+						print("All links provided were acessed")
+						limit = True
 						break
+
+					if(total_extracted_links >= LINKS_EXTRACTION_LIMIT):
+
+						print("Link limits reached")
+						limit = True
+						break
+
 				else:
 
 					print("Request Error: %d" %response.status_code)
 
 			except:
 
+				print("Error making the request")
 				continue
 
 		for link in extracted_links:
 
 			links.append(link)
 
-		print("%d Links Extracted" %total_extracted_links)
+		if limit: break
 
-		with open(LINKS_FILENAME, 'w') as file:
 
-		    for link in links:
+	with open(LINKS_FILENAME, 'w') as file:
 
-		        file.write("%s\n" %link)
+		for link in links:
 
-		if(link_limit_reached):
+		    file.write("%s\n" %link)
 
-			print("All links provided were acessed")
-			break
 
-		if(total_extracted_links >= LINKS_EXTRACTION_LIMIT):
-
-			print("Link limits reached")
-			break
+	print("%d Links Extracted" %total_extracted_links)

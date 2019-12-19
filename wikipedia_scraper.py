@@ -4,11 +4,25 @@ import requests
 import txtstringify as txt
 import time
 
+
+def extract_page_text(content):
+
+	soup = BeautifulSoup(content, 'html.parser')
+	paragraphs_list = soup.find_all("p")
+	page_text = " "
+
+	for paragraph in paragraphs_list:
+
+		page_text += paragraph.get_text()
+
+	return page_text
+
+
 def scrape():
 
 	links = txt.txtstringify.raw_lines(LINKS_FILENAME, linebreaks=False)
 	links_quantity = len(links)
-	requested_links = 1
+	requested_links = 0
 	print("Extracting pages from the links...")
 
 	for n in range(links_quantity):
@@ -22,20 +36,19 @@ def scrape():
 
 			if response.status_code == 200:
 
-				print("Scraping %d of %d : %s" %(requested_links, links_quantity, current_link))
 				requested_links += 1
-				content = response.content
-				soup = BeautifulSoup(content, 'html.parser')
-				paragraphs = soup.find_all("p")
-				text = " "
+				print("Scraping %d of %d : %s" %(requested_links, links_quantity, current_link))
+				extract_page_text(response.content)
 
-				for p in paragraphs:
+				if (requested_links >= LINKS_ACCESS_LIMIT) and LINKS_ACCESS_LIMIT != -1:
 
-					text += p.get_text()
+					print("Link access limit reached")
+					break
 
 				with open(TEXT_FILENAME, 'a') as file:
 
 					file.write(text)
+
 			else:
 
 				print("Request Error: %d" %response.status_code)
@@ -43,10 +56,5 @@ def scrape():
 		except:
 
 			continue
-
-		if requested_links >= LINKS_ACCESS_LIMIT and LINKS_ACCESS_LIMIT != -1:
-
-			print("Link access limit reached")
-			break
 
 
