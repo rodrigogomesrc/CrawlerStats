@@ -1,7 +1,7 @@
 from config import *
 from bs4 import BeautifulSoup
 import requests
-import txtstringify as txt
+from TxtStringify import txtstringify as txt 
 import link_validation
 import time
 
