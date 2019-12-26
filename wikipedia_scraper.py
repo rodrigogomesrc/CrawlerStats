@@ -1,7 +1,7 @@
 from config import *
 from bs4 import BeautifulSoup
 import requests
-from TxtStringify import txtstringify as txt 
+from FTDHandler import ftdhandler as txt 
 import time
 
 
@@ -20,7 +20,7 @@ def extract_page_text(content):
 
 def scrape():
 
-	links = txt.txtstringify.raw_lines(LINKS_FILENAME, linebreaks=False)
+	links = txt.ftdhandler.raw_lines(LINKS_FILENAME, linebreaks=False)
 	links_quantity = len(links)
 	requested_links = 0
 	print("Extracting pages from the links...")

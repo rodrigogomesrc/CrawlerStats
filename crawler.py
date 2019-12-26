@@ -1,9 +1,10 @@
-from config import *
-from bs4 import BeautifulSoup
 import requests
-from TxtStringify import txtstringify as txt 
-import link_validation
 import time
+from bs4 import BeautifulSoup
+from FTDHandler import ftdhandler as txt 
+from config import *
+import link_validation
+
 
 def extract_link_tags(response_content):
 
@@ -51,7 +52,7 @@ def save_links(links_to_save, link_save_list):
 def crawl():
 
 	requested_links = list()
-	links = txt.txtstringify.raw_lines(LINKS_FILENAME, linebreaks=False)
+	links = txt.ftdhandler.raw_lines(LINKS_FILENAME, linebreaks=False)
 	total_extracted_links = 0
 	limit = False
 	print("Extracting links...")

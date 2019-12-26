@@ -1,6 +1,6 @@
 from config import *
 from StringStats import stringstats as stats
-from TxtStringify import txtstringify as txt 
+from FTDHandler import ftdhandler as txt 
 
 
 def reset_file():
@@ -57,7 +57,7 @@ def analyse_text():
 
 	reset_file()
 	print("Getting text for analyze...")
-	text = txt.txtstringify.clean_text(TEXT_FILENAME, nonumbers=True, lower=True)
+	text = txt.ftdhandler.clean_text(TEXT_FILENAME, nonumbers=True, lower=True)
 	print("Analyzing text...")
 	general_stats(text)
 	print("Calculating words frequency...")
@@ -70,7 +70,7 @@ def analyse_text():
 		file.write("\nWITHOUT STOPWORDS: \n\n")
 
 	print("Getting text for analyze...")
-	text = txt.txtstringify.clean_text(TEXT_FILENAME, nonumbers=True, lower=True, nostopwords="portuguese")
+	text = txt.ftdhandler.clean_text(TEXT_FILENAME, nonumbers=True, lower=True, nostopwords="portuguese")
 	print("Analyzing text...")
 	general_stats(text)
 	print("Calculating words frequency...")

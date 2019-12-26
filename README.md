@@ -27,7 +27,7 @@ Run the CrawlerStats.py file and the results of the analyses of the text will be
 
 ### Dependencies
 
-The codes uses the TxtStringify and the StringStats libraries (built by me) that comes with the other files. Besides that, you'll need to install the BeautifulSoup library and the requests library.
+The codes uses the FTDHandler and the StringStats libraries (built by me and also available on my Github) that are copied into this project. Besides that, you'll need to install the BeautifulSoup library and the requests library.
 
 To install them using pip:
 
