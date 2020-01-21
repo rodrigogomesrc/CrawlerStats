@@ -4,8 +4,7 @@ A collection of codes meant to get some stats on webpages using webscraping
 
 #### About
 
-This collections of codes contain a crawler, a tool to copy articles from the wikipedia using webscraping, and a tool for analize its contents, extracting some stats about the text. Those stats at the present moment are onnly very basic. They only count the words and characters as well as their frequency on the text. Later on I intend to use those tools to implement more deep analyses and statistcs.
-
+This project consists of a tool to crawl a page, extract their links, extract the content of each link and analyse the texts obtained. Only some basic stats are made from the obtained text at the present momen. It is counted the words and characters as well as their frequency on the text. Later on I intend to use those tools to implement more deep analyses and statistcs.
 
 ### How it works
 
