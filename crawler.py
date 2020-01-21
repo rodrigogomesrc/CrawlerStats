@@ -19,6 +19,7 @@ def extract_link_tags(response_content):
 
 	return urls
 
+
 def get_validated_links(links):
 
 	validated_links = list()
@@ -81,6 +82,10 @@ def crawl():
 					execution_extracted_links = save_links(validated_links, extracted_links)
 					total_extracted_links += execution_extracted_links
 
+					for link in extracted_links:
+
+						links.append(link)
+
 					if(execution_extracted_links == 0):
 
 						print("All links provided were acessed")
@@ -102,11 +107,9 @@ def crawl():
 				print("Error making the request")
 				continue
 
-		for link in extracted_links:
+		if limit: 
 
-			links.append(link)
-
-		if limit: break
+			break
 
 
 	with open(LINKS_FILENAME, 'w') as file:

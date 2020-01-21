@@ -13,7 +13,7 @@ Without the limit, it wouldn't stop running if every link lead to another one.
 It will still get all the links of the page it is acessing even if it is more than the limit.
 But in this case it will stoping the search after that.
 """
-LINKS_EXTRACTION_LIMIT = 3000
+LINKS_EXTRACTION_LIMIT = 10000
 """
 Set how many links of those obtained will be acessed and scraped.
 
