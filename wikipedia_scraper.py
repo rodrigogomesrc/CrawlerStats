@@ -38,7 +38,7 @@ def scrape():
 
 				requested_links += 1
 				print("Scraping %d of %d : %s" %(requested_links, links_quantity, current_link))
-				extract_page_text(response.content)
+				text = extract_page_text(response.content)
 
 				if (requested_links >= LINKS_ACCESS_LIMIT) and LINKS_ACCESS_LIMIT != -1:
 
@@ -58,3 +58,8 @@ def scrape():
 			continue
 
 
+
+if __name__ == "__main__":
+	
+	scrape()
+	
