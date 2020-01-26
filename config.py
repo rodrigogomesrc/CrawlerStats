@@ -40,7 +40,6 @@ Determine the position of the first link to be scraped. Set zero to start from t
 
 It is useful when for some reason the scraping was interrupted and you want start from the last link scraped.
 
-It works only when executing the 
 """
 SCRAPING_START = 0
 """
