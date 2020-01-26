@@ -70,7 +70,7 @@ def analyse_text():
 		file.write("\nWITHOUT STOPWORDS: \n\n")
 
 	print("Getting text for analyze...")
-	text = txt.ftdhandler.clean_text(TEXT_FILENAME, nonumbers=True, lower=True, nostopwords="portuguese")
+	text = txt.ftdhandler.clean_text(TEXT_FILENAME, nonumbers=True, lower=True, nostopwords=LANGUAGE_OF_SCRAPED_TEXT)
 	print("Analyzing text...")
 	general_stats(text)
 	print("Calculating words frequency...")

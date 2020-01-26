@@ -17,15 +17,14 @@ def extract_page_text(content):
 
 	return page_text
 
-
 def scrape():
 
 	links = txt.ftdhandler.raw_lines(LINKS_FILENAME, linebreaks=False)
 	links_quantity = len(links)
-	requested_links = 0
+	requested_links = SCRAPING_START
 	print("Extracting pages from the links...")
 
-	for n in range(links_quantity):
+	for n in range(SCRAPING_START, links_quantity):
 
 		time.sleep(DELAY)
 		current_link = links[n]

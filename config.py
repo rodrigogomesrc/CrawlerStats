@@ -1,6 +1,12 @@
 import link_validation
 
 """
+Language of the scraped and analysed text.
+
+It is used when extracting the stop words and other things that may vary based on the language.
+"""
+LANGUAGE_OF_SCRAPED_TEXT = "portuguese"
+"""
 Set the day between each requisition to the wikipedia page. 
 This is used to limitate the requisitions per second and mitigate the risk
 of having the ip blocked.
@@ -28,6 +34,15 @@ LINKS_FILENAME = "wikipedia_links.txt"
 Set the filename of the txt file to save the text scraped from the links.
 """
 TEXT_FILENAME = "wikipedia_articles.txt"
+
+"""
+Determine the position of the first link to be scraped. Set zero to start from the first link
+
+It is useful when for some reason the scraping was interrupted and you want start from the last link scraped.
+
+It works only when executing the 
+"""
+SCRAPING_START = 0
 """
 Set the filename to txt file to which will be saved the stats from the text obtained.
 """
