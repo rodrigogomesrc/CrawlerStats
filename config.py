@@ -3,9 +3,11 @@ import link_validation
 """
 Language of the scraped and analysed text.
 
+set to "portuguese" or "english"
+
 It is used when extracting the stop words and other things that may vary based on the language.
 """
-LANGUAGE_OF_SCRAPED_TEXT = "portuguese"
+LANGUAGE_OF_SCRAPED_TEXT = "english"
 """
 Set the day between each requisition to the wikipedia page. 
 This is used to limitate the requisitions per second and mitigate the risk
@@ -46,16 +48,39 @@ SCRAPING_START = 0
 Set the filename to txt file to which will be saved the stats from the text obtained.
 """
 FREQUENCY_FILE = "pt_wikipedia_frequency.txt"
+
 """
 Link Filter.
 
 Set a function that receives the links and validate it according to the type of link you're
 looking for on your aplication.
+
+Set the function for both languages
 """
-LINK_VALIDATION = link_validation.pt_wikipedia_link
+pt_link_validation = link_validation.pt_wikipedia_link
+en_link_validation = link_validation.en_wikipedia_link
+
 """
-Link Fix.
+Link Fix for English.
 
 Set a function to turn a relative into a absolute link according to the function criteria.
+
+Set the function for both languages
 """
-LINK_FIX = link_validation.pt_wikipedia_link_fix
+
+pt_link_fix = link_validation.pt_wikipedia_link_fix
+en_link_fix = link_validation.en_wikipedia_link_fix
+
+
+
+
+
+if LANGUAGE_OF_SCRAPED_TEXT == "portuguese":
+
+	LINK_VALIDATION = pt_link_validation
+	LINK_FIX = pt_link_fix
+
+if LANGUAGE_OF_SCRAPED_TEXT == "english":
+
+	LINK_VALIDATION = en_link_validation
+	LINK_FIX = en_link_fix
