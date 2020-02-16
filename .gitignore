@@ -1,4 +1,10 @@
 pt_wikipedia_frequency.txt
 wikipedia_articles.txt
 wikipedia_links.txt
+pt_wikipedia_articles.txt
+en_wikipedia_articles.txt
+pt_wikipedia_frequency.txt
+en_wikipedia_frequency.txt
+pt_wikipedia_links.txt
+en_wikipedia_links.txt
 __pycache__/

@@ -7,7 +7,7 @@ set to "portuguese" or "english"
 
 It is used when extracting the stop words and other things that may vary based on the language.
 """
-LANGUAGE_OF_SCRAPED_TEXT = "english"
+LANGUAGE_OF_SCRAPED_TEXT = "portuguese"
 """
 Set the day between each requisition to the wikipedia page. 
 This is used to limitate the requisitions per second and mitigate the risk
@@ -31,11 +31,16 @@ LINKS_ACCESS_LIMIT = -1
 """
 Set the filename of the links txt file.
 """
-LINKS_FILENAME = "wikipedia_links.txt"
+pt_links_filename = "pt_wikipedia_links.txt"
+en_links_filename = "en_wikipedia_links.txt"
+
 """
 Set the filename of the txt file to save the text scraped from the links.
 """
-TEXT_FILENAME = "wikipedia_articles.txt"
+
+pt_text_filename = "pt_wikipedia_articles.txt"
+en_text_filename = "en_wikipedia_articles.txt"
+
 
 """
 Determine the position of the first link to be scraped. Set zero to start from the first link
@@ -47,7 +52,9 @@ SCRAPING_START = 0
 """
 Set the filename to txt file to which will be saved the stats from the text obtained.
 """
-FREQUENCY_FILE = "pt_wikipedia_frequency.txt"
+
+pt_frequency_file = "pt_wikipedia_frequency.txt"
+en_frequency_file = "en_wikipedia_frequency.txt"
 
 """
 Link Filter.
@@ -72,15 +79,19 @@ pt_link_fix = link_validation.pt_wikipedia_link_fix
 en_link_fix = link_validation.en_wikipedia_link_fix
 
 
-
-
-
 if LANGUAGE_OF_SCRAPED_TEXT == "portuguese":
 
 	LINK_VALIDATION = pt_link_validation
 	LINK_FIX = pt_link_fix
+	TEXT_FILENAME = pt_text_filename
+	LINKS_FILENAME = pt_links_filename
+	FREQUENCY_FILE = pt_frequency_file
 
 if LANGUAGE_OF_SCRAPED_TEXT == "english":
 
 	LINK_VALIDATION = en_link_validation
 	LINK_FIX = en_link_fix
+	TEXT_FILENAME = en_text_filename
+	LINKS_FILENAME = en_links_filename
+	FREQUENCY_FILE = en_frequency_file
+
